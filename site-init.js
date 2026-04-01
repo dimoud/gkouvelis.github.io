@@ -119,14 +119,14 @@
     // FORM
     T['form.title']          = { el: 'Στείλτε μήνυμα',                      en: 'Send a Message' };
     T['form.label.name']     = { el: 'Ονοματεπώνυμο',                       en: 'Full Name' };
-    T['form.ph.name']        = { el: 'Το όνομά σας',                        en: 'Your name' };
+    T['form.ph.name']        = { el: '',                                    en: '' };
     T['form.label.phone']    = { el: 'Τηλέφωνο',                            en: 'Phone' };
     T['form.label.email']    = { el: 'Email',                                en: 'Email' };
-    T['form.ph.email']       = { el: 'email@example.gr',                     en: 'email@example.com' };
+    T['form.ph.email']       = { el: '',                                    en: '' };
     T['form.label.subject']  = { el: 'Αντικείμενο',                         en: 'Subject' };
     T['form.select.default'] = { el: 'Επιλέξτε υπηρεσία',                   en: 'Select a service' };
     T['form.label.message']  = { el: 'Μήνυμα',                              en: 'Message' };
-    T['form.ph.message']     = { el: 'Περιγράψτε σύντομα το αίτημά σας...', en: 'Briefly describe your request...' };
+    T['form.ph.message']     = { el: '',                                    en: '' };
     T['form.submit']         = { el: 'Αποστολή Μηνύματος',                  en: 'Send Message' };
     (C.formOptions || []).forEach(function (o, i) {
         T['form.opt.' + (i + 1)] = { el: o.el, en: o.en };
@@ -497,7 +497,7 @@
     })();
 
     // ── ADD phone placeholder translation ─────────────────────────────────────
-    T['form.ph.phone'] = { el: 'π.χ. 2310 603 372', en: 'e.g. +30 2310 603 372' };
+    T['form.ph.phone'] = { el: '', en: '' };
 
     // No re-apply needed: i18n.js runs after this script and sees the fully-rendered DOM.
 
