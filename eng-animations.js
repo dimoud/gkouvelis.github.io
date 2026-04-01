@@ -208,6 +208,7 @@
         var revealObs = new IntersectionObserver(function (entries) {
             entries.forEach(function (entry) {
                 if (entry.isIntersecting) {
+                    var isServiceCard = entry.target.classList.contains('service-card');
                     var siblings = Array.prototype.filter.call(
                         entry.target.parentElement.children,
                         function (el) {
@@ -215,13 +216,16 @@
                         }
                     );
                     var idx = siblings.indexOf(entry.target);
+                    /* Service cards: 90ms stagger — crisp cascade feel.
+                       Other elements: 120ms stagger — slower, section-level pacing. */
+                    var step = isServiceCard ? 90 : 120;
                     setTimeout(function () {
                         entry.target.classList.add('visible');
-                    }, idx * 120);
+                    }, idx * step);
                     revealObs.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.1 });
+        }, { threshold: 0.08 });
         revealEls.forEach(function (el) { revealObs.observe(el); });
     } else {
         revealEls.forEach(function (el) { el.classList.add('visible'); });
@@ -282,5 +286,79 @@
     window.EngAnimations = {
         refresh: onScroll,
     };
+
+    /* ─── 11. HERO CURSOR SPOTLIGHT ──────────────────────────────────────── */
+    var heroEl       = document.querySelector('.hero');
+    var spotlightEl  = document.querySelector('.hero-spotlight');
+    if (heroEl && spotlightEl) {
+        heroEl.addEventListener('mousemove', function (e) {
+            var rect = heroEl.getBoundingClientRect();
+            heroEl.style.setProperty('--cx', (e.clientX - rect.left) + 'px');
+            heroEl.style.setProperty('--cy', (e.clientY - rect.top)  + 'px');
+        }, { passive: true });
+        heroEl.addEventListener('mouseleave', function () {
+            heroEl.style.setProperty('--cx', '-100%');
+            heroEl.style.setProperty('--cy', '-100%');
+        });
+    }
+
+    /* ─── 12. SERVICE CARD 3-D TILT ─────────────────────────────────────── */
+    var tiltCards = document.querySelectorAll('.service-card');
+    tiltCards.forEach(function (card) {
+        card.addEventListener('mousemove', function (e) {
+            var rect = card.getBoundingClientRect();
+            var cx   = rect.left + rect.width  / 2;
+            var cy   = rect.top  + rect.height / 2;
+            var dx   = (e.clientX - cx) / (rect.width  / 2);  /* -1 … 1 */
+            var dy   = (e.clientY - cy) / (rect.height / 2);
+            var rx   = -dy * 6;   /* tilt up/down */
+            var ry   =  dx * 6;   /* tilt left/right */
+            card.style.transform = 'perspective(900px) rotateX(' + rx + 'deg) rotateY(' + ry + 'deg) translateZ(4px)';
+        }, { passive: true });
+        card.addEventListener('mouseleave', function () {
+            card.style.transform = '';
+        });
+    });
+
+    /* ─── 13. MAGNETIC BUTTON GLOW ──────────────────────────────────────── */
+    var glowBtns = document.querySelectorAll('.nav-cta, .btn-submit');
+    glowBtns.forEach(function (btn) {
+        btn.addEventListener('mousemove', function (e) {
+            var rect = btn.getBoundingClientRect();
+            btn.style.setProperty('--mx', (e.clientX - rect.left) + 'px');
+            btn.style.setProperty('--my', (e.clientY - rect.top)  + 'px');
+        }, { passive: true });
+    });
+
+    /* ─── 10. TRUST STAT COUNTER ─────────────────────────────────────────── */
+    var statNums = document.querySelectorAll('.trust-stat-num');
+    if (statNums.length && 'IntersectionObserver' in window) {
+        var statObs = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (!entry.isIntersecting) return;
+                var el      = entry.target;
+                var text    = el.textContent.trim();
+                /* Strip thousands separators (. or ,) before parsing */
+                var cleaned = text.replace(/[.,\s]/g, '');
+                var num     = parseInt(cleaned, 10);
+                if (isNaN(num) || num === 0) { statObs.unobserve(el); return; }
+                var suffix  = text.replace(/[\d.,\s]/g, '');
+                var dur     = Math.min(1800, 900 + num * 0.04); /* scale to value */
+                var start   = performance.now();
+                (function tick(now) {
+                    var pct    = Math.min(1, (now - start) / dur);
+                    var eased  = 1 - Math.pow(1 - pct, 3); /* ease-out cubic */
+                    el.textContent = Math.round(eased * num) + suffix;
+                    if (pct < 1) {
+                        requestAnimationFrame(tick);
+                    } else {
+                        el.textContent = text; /* restore original formatting */
+                    }
+                })(start);
+                statObs.unobserve(el);
+            });
+        }, { threshold: 0.4 });
+        statNums.forEach(function (el) { statObs.observe(el); });
+    }
 
 })();

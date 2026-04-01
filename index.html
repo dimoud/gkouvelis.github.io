@@ -152,6 +152,8 @@
     <main id="main">
     <header class="hero">
         <div class="hero-blueprint" aria-hidden="true"></div>
+        <div class="hero-grain"     aria-hidden="true"></div>
+        <div class="hero-spotlight" aria-hidden="true"></div>
 
         <!-- Left: Photo -->
         <div class="hero-photo-col">
@@ -464,13 +466,19 @@
             var hamburger  = document.getElementById('hamburger');
             var isOpen     = menu.classList.toggle('open');
             document.body.style.overflow = isOpen ? 'hidden' : '';
-            if (hamburger) hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+            if (hamburger) {
+                hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                hamburger.classList.toggle('open', isOpen);
+            }
         }
         function closeMenu() {
             var hamburger = document.getElementById('hamburger');
             document.getElementById('navLinks').classList.remove('open');
             document.body.style.overflow = '';
-            if (hamburger) hamburger.setAttribute('aria-expanded', 'false');
+            if (hamburger) {
+                hamburger.setAttribute('aria-expanded', 'false');
+                hamburger.classList.remove('open');
+            }
         }
         document.querySelectorAll('#navLinks a').forEach(function (a) {
             a.addEventListener('click', closeMenu);
