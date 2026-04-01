@@ -1403,10 +1403,11 @@ footer {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    animation: heroFadeUp 0.7s var(--ease) 0.70s both, heroNameShimmer 5s linear 3s infinite;
+    animation: heroFadeUp 0.7s var(--ease) 0.70s both, heroNameShimmer 10s linear 3s infinite;
 }
 @keyframes heroNameShimmer {
     0%   { background-position: 250% center; }
+    14%  { background-position: -250% center; }
     100% { background-position: -250% center; }
 }
 
