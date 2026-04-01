@@ -1076,6 +1076,23 @@ footer {
 
 /* ===== RESPONSIVE ===== */
 
+/* ── Small desktop / 14" laptops (≤1380px) ── */
+@media (max-width: 1380px) {
+    .hero {
+        padding: 110px 6% 0;
+        gap: 40px 60px;
+    }
+    .hero-photo-col {
+        transform: translateY(-40px);   /* reduced lift so photo doesn't overlap text */
+    }
+    .hero-photo {
+        width: min(380px, 82%);         /* smaller than 494px default */
+    }
+    .hero-name .line2 {
+        font-size: clamp(52px, 7.5vw, 100px);
+    }
+}
+
 /* ── Tablet (≤1100px) ── */
 @media (max-width: 1100px) {
     .hero {
@@ -1227,8 +1244,7 @@ footer {
     .footer-brand { min-width: 0; }
     .footer-brand-text { min-width: 0; flex: 1; overflow: hidden; }
     .footer-brand-text .fname { white-space: nowrap; font-size: 12px; overflow: hidden; text-overflow: ellipsis; }
-    hr.ec-rule { margin-top: 24px; }
-    footer .expertease-credit { padding-top: 20px; }
+    footer .expertease-credit { padding-top: 32px; }
 
     /* ── Decorative (hide on mobile) ── */
     .scroll-elev { display: none; }
