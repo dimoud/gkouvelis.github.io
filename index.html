@@ -369,32 +369,35 @@
 
             <div class="contact-form-wrap" data-reveal>
                 <h3 data-i18n="form.title"></h3>
-                <form class="form-fields" onsubmit="handleSubmit(event)" novalidate>
+                <form id="clientContactForm" class="form-fields" novalidate>
+                    <input type="hidden" name="_to" value="sasma1977@gmail.com">
+                    <input type="hidden" name="_key" value="MyPrivateAgencyKey_99">
                     <div class="form-row">
                         <div class="field">
                             <label for="f-name" data-i18n="form.label.name"></label>
-                            <input id="f-name" type="text" data-i18n-placeholder="form.ph.name" autocomplete="name" required>
+                            <input id="f-name" name="name" type="text" data-i18n-placeholder="form.ph.name" autocomplete="name" required>
                         </div>
                         <div class="field">
                             <label for="f-phone" data-i18n="form.label.phone"></label>
-                            <input id="f-phone" type="tel" data-i18n-placeholder="form.ph.phone" autocomplete="tel" required>
+                            <input id="f-phone" name="phone" type="tel" data-i18n-placeholder="form.ph.phone" autocomplete="tel" required>
                         </div>
                     </div>
                     <div class="field">
                         <label for="f-email" data-i18n="form.label.email"></label>
-                        <input id="f-email" type="email" data-i18n-placeholder="form.ph.email" autocomplete="email" required>
+                        <input id="f-email" name="email" type="email" data-i18n-placeholder="form.ph.email" autocomplete="email" required>
                     </div>
                     <div class="field">
                         <label for="serviceSelect" data-i18n="form.label.subject"></label>
-                        <select id="serviceSelect">
+                        <select id="serviceSelect" name="subject">
                             <!-- rendered by site-init.js from config.formOptions -->
                         </select>
                     </div>
                     <div class="field">
                         <label for="f-message" data-i18n="form.label.message"></label>
-                        <textarea id="f-message" data-i18n-placeholder="form.ph.message"></textarea>
+                        <textarea id="f-message" name="message" data-i18n-placeholder="form.ph.message"></textarea>
                     </div>
                     <button type="submit" class="btn-submit" data-i18n="form.submit"></button>
+                    <p id="formStatus"></p>
                 </form>
             </div>
         </div>
@@ -483,24 +486,10 @@
         });
         document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMenu(); });
 
-        /* Contact form */
-        function handleSubmit(e) {
-            e.preventDefault();
-            var btn  = e.target.querySelector('.btn-submit');
-            var orig = btn.textContent;
-            btn.textContent      = 'Στάλθηκε ✓';
-            btn.style.background = '#2d7a4f';
-            btn.style.color      = '#fff';
-            setTimeout(function () {
-                btn.textContent      = orig;
-                btn.style.background = '';
-                btn.style.color      = '';
-                e.target.reset();
-            }, 3000);
-        }
     </script>
     <script src="site-init.js"></script>
     <script src="eng-animations.js"></script>
     <script src="i18n.js"></script>
+    <script src="contact-form.js" defer></script>
 </body>
 </html>
